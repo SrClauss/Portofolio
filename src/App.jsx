@@ -17,6 +17,12 @@ import {
   Database
 } from 'lucide-react';
 
+// Animation timing constants
+const TYPING_DELAY = 100;
+const EXECUTION_PAUSE = 400;
+const NAME_DISPLAY_DURATION = 3500;
+const RESET_DELAY = 1000;
+
 const App = () => {
   const [commandText, setCommandText] = useState('');
   const [showName, setShowName] = useState(false);
@@ -27,46 +33,70 @@ const App = () => {
   // Ciclo de Animação Completa do Terminal (Comando -> Nome -> Clear -> Repete)
   useEffect(() => {
     let isMounted = true;
+    let timeoutId;
+
+    const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
     const runTerminalCycle = async () => {
-      while (isMounted) {
-        // 1. Digitar o comando
-        for (let i = 0; i <= fullCommand.length; i++) {
-          if (!isMounted) return;
-          setCommandText(fullCommand.substring(0, i));
-          await new Promise(r => setTimeout(r, 100));
-        }
+      if (!isMounted) return;
 
-        // 2. Pequena pausa de execução
-        await new Promise(r => setTimeout(r, 400));
-
-        // 3. Mostrar o nome e logs
+      // 1. Digitar o comando
+      for (let i = 0; i <= fullCommand.length; i++) {
         if (!isMounted) return;
-        setShowName(true);
-
-        // 4. Pausa para leitura (Exibição do Nome)
-        await new Promise(r => setTimeout(r, 3500));
-
-        // 5. Limpar e reiniciar
-        if (!isMounted) return;
-        setShowName(false);
-        setCommandText('');
-        await new Promise(r => setTimeout(r, 1000));
+        setCommandText(fullCommand.substring(0, i));
+        await sleep(TYPING_DELAY);
       }
+
+      // 2. Pequena pausa de execução
+      await sleep(EXECUTION_PAUSE);
+
+      // 3. Mostrar o nome e logs
+      if (!isMounted) return;
+      setShowName(true);
+
+      // 4. Pausa para leitura (Exibição do Nome)
+      await sleep(NAME_DISPLAY_DURATION);
+
+      // 5. Limpar e reiniciar
+      if (!isMounted) return;
+      setShowName(false);
+      setCommandText('');
+      await sleep(RESET_DELAY);
+
+      if (!isMounted) return;
+      // Agenda o próximo ciclo de forma recursiva
+      timeoutId = setTimeout(runTerminalCycle, 0);
     };
 
     runTerminalCycle();
-    return () => { isMounted = false; };
-  }, []);
+    return () => {
+      isMounted = false;
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [fullCommand]);
 
   const techStack = [
-    { name: 'Python', icon: <Binary className="w-5 h-5" />, category: 'Logic' },
-    { name: 'Rust', icon: <Cpu className="w-5 h-5" />, category: 'Core' },
-    { name: 'Next.js', icon: <Layout className="w-5 h-5" />, category: 'View' },
-    { name: 'FastAPI', icon: <Zap className="w-5 h-5" />, category: 'Route' },
-    { name: 'Docker', icon: <Box className="w-5 h-5" />, category: 'Infra' },
-    { name: 'SQL', icon: <Database className="w-5 h-5" />, category: 'Data' },
+    { name: 'Python', iconName: 'Binary', category: 'Logic' },
+    { name: 'Rust', iconName: 'Cpu', category: 'Core' },
+    { name: 'Next.js', iconName: 'Layout', category: 'View' },
+    { name: 'FastAPI', iconName: 'Zap', category: 'Route' },
+    { name: 'Docker', iconName: 'Box', category: 'Infra' },
+    { name: 'SQL', iconName: 'Database', category: 'Data' },
   ];
+
+  const getIcon = (iconName) => {
+    const icons = {
+      Binary: <Binary className="w-5 h-5" />,
+      Cpu: <Cpu className="w-5 h-5" />,
+      Layout: <Layout className="w-5 h-5" />,
+      Zap: <Zap className="w-5 h-5" />,
+      Box: <Box className="w-5 h-5" />,
+      Database: <Database className="w-5 h-5" />,
+    };
+    return icons[iconName];
+  };
 
   return (
     <div className="min-h-screen bg-[#050505] text-[#a1a1aa] font-mono selection:bg-[#10B981] selection:text-black overflow-x-hidden">
@@ -154,13 +184,34 @@ const App = () => {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 md:gap-6 pt-2">
-              <button className="bg-white text-black px-8 md:px-12 py-3 md:py-4 font-black text-xs md:text-sm uppercase tracking-[0.2em] hover:bg-[#10B981] transition-all shadow-[4px_4px_0px_0px_rgba(16,185,129,1)] md:shadow-[8px_8px_0px_0px_rgba(16,185,129,1)] hover:shadow-none active:translate-x-1 active:translate-y-1">
+              <button
+                type="button"
+                className="bg-white text-black px-8 md:px-12 py-3 md:py-4 font-black text-xs md:text-sm uppercase tracking-[0.2em] hover:bg-[#10B981] transition-all shadow-[4px_4px_0px_0px_rgba(16,185,129,1)] md:shadow-[8px_8px_0px_0px_rgba(16,185,129,1)] hover:shadow-none active:translate-x-1 active:translate-y-1"
+              >
                 You're Goddamn Right
               </button>
               <div className="flex items-center justify-center gap-6 px-6 py-3 border border-white/10 rounded-sm">
-                <Github size={18} className="hover:text-white cursor-pointer transition-colors" />
-                <Linkedin size={18} className="hover:text-white cursor-pointer transition-colors" />
-                <Mail size={18} className="hover:text-white cursor-pointer transition-colors" />
+                <a
+                  href="#"
+                  aria-label="Abrir perfil no GitHub"
+                  className="hover:text-white cursor-pointer transition-colors"
+                >
+                  <Github size={18} />
+                </a>
+                <a
+                  href="#"
+                  aria-label="Abrir perfil no LinkedIn"
+                  className="hover:text-white cursor-pointer transition-colors"
+                >
+                  <Linkedin size={18} />
+                </a>
+                <a
+                  href="#"
+                  aria-label="Enviar e-mail"
+                  className="hover:text-white cursor-pointer transition-colors"
+                >
+                  <Mail size={18} />
+                </a>
               </div>
             </div>
           </div>
@@ -232,7 +283,7 @@ const App = () => {
             {techStack.map((tech, idx) => (
               <div key={idx} className="bg-[#050505] p-6 md:p-8 hover:bg-white/[0.03] transition-colors group relative text-center">
                 <div className="text-[#10B981] mb-4 md:mb-6 group-hover:scale-110 transition-transform flex justify-center">
-                  {tech.icon}
+                  {getIcon(tech.iconName)}
                 </div>
                 <div className="space-y-1">
                   <p className="text-[8px] tracking-widest text-white/30 uppercase">{tech.category}</p>

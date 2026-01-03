@@ -23,6 +23,16 @@ const EXECUTION_PAUSE = 400;
 const NAME_DISPLAY_DURATION = 3500;
 const RESET_DELAY = 1000;
 
+// Icon mapping for tech stack
+const TECH_ICONS = {
+  Binary: <Binary className="w-5 h-5" />,
+  Cpu: <Cpu className="w-5 h-5" />,
+  Layout: <Layout className="w-5 h-5" />,
+  Zap: <Zap className="w-5 h-5" />,
+  Box: <Box className="w-5 h-5" />,
+  Database: <Database className="w-5 h-5" />,
+};
+
 const App = () => {
   const [commandText, setCommandText] = useState('');
   const [showName, setShowName] = useState(false);
@@ -85,18 +95,6 @@ const App = () => {
     { name: 'Docker', iconName: 'Box', category: 'Infra' },
     { name: 'SQL', iconName: 'Database', category: 'Data' },
   ];
-
-  const getIcon = (iconName) => {
-    const icons = {
-      Binary: <Binary className="w-5 h-5" />,
-      Cpu: <Cpu className="w-5 h-5" />,
-      Layout: <Layout className="w-5 h-5" />,
-      Zap: <Zap className="w-5 h-5" />,
-      Box: <Box className="w-5 h-5" />,
-      Database: <Database className="w-5 h-5" />,
-    };
-    return icons[iconName];
-  };
 
   return (
     <div className="min-h-screen bg-[#050505] text-[#a1a1aa] font-mono selection:bg-[#10B981] selection:text-black overflow-x-hidden">
@@ -191,27 +189,27 @@ const App = () => {
                 You're Goddamn Right
               </button>
               <div className="flex items-center justify-center gap-6 px-6 py-3 border border-white/10 rounded-sm">
-                <a
-                  href="#"
+                <button
+                  type="button"
                   aria-label="Abrir perfil no GitHub"
-                  className="hover:text-white cursor-pointer transition-colors"
+                  className="hover:text-white cursor-pointer transition-colors bg-transparent border-0 p-0"
                 >
                   <Github size={18} />
-                </a>
-                <a
-                  href="#"
+                </button>
+                <button
+                  type="button"
                   aria-label="Abrir perfil no LinkedIn"
-                  className="hover:text-white cursor-pointer transition-colors"
+                  className="hover:text-white cursor-pointer transition-colors bg-transparent border-0 p-0"
                 >
                   <Linkedin size={18} />
-                </a>
-                <a
-                  href="#"
+                </button>
+                <button
+                  type="button"
                   aria-label="Enviar e-mail"
-                  className="hover:text-white cursor-pointer transition-colors"
+                  className="hover:text-white cursor-pointer transition-colors bg-transparent border-0 p-0"
                 >
                   <Mail size={18} />
-                </a>
+                </button>
               </div>
             </div>
           </div>
@@ -283,7 +281,7 @@ const App = () => {
             {techStack.map((tech, idx) => (
               <div key={idx} className="bg-[#050505] p-6 md:p-8 hover:bg-white/[0.03] transition-colors group relative text-center">
                 <div className="text-[#10B981] mb-4 md:mb-6 group-hover:scale-110 transition-transform flex justify-center">
-                  {getIcon(tech.iconName)}
+                  {TECH_ICONS[tech.iconName]}
                 </div>
                 <div className="space-y-1">
                   <p className="text-[8px] tracking-widest text-white/30 uppercase">{tech.category}</p>

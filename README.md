@@ -1,6 +1,6 @@
 # Portfólio
 
-Um portfólio visual moderno desenvolvido com Next.js, showcasing projetos e habilidades em desenvolvimento web.
+Um portfólio visual moderno desenvolvido com Next.js, apresentando projetos e habilidades em desenvolvimento web.
 
 ## 🚀 Tecnologias
 

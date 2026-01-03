@@ -34,9 +34,14 @@ export default function Navigation() {
             letterSpacing: '0.1em',
             fontSize: '0.875rem',
             textTransform: 'uppercase',
+            '& svg': {
+              color: 'primary.main',
+              width: 20,
+              height: 20,
+            },
           }}
         >
-          <Fingerprint style={{ color: '#10B981', width: 20, height: 20 }} />
+          <Fingerprint />
           <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>
             Identity_Verified
           </Box>

@@ -182,15 +182,13 @@ export default function ProblemSolution() {
                     transform: 'scale(1.1)',
                   },
                 },
+                '& svg': {
+                  color: 'primary.main',
+                  transition: 'transform 0.3s',
+                },
               }}
             >
-              <BoxIcon
-                style={{
-                  color: '#10B981',
-                  transition: 'transform 0.3s',
-                }}
-                size={24}
-              />
+              <BoxIcon size={24} />
               <Typography
                 variant="h4"
                 sx={{
@@ -233,15 +231,13 @@ export default function ProblemSolution() {
                     transform: 'scale(1.1)',
                   },
                 },
+                '& svg': {
+                  color: 'primary.main',
+                  transition: 'transform 0.3s',
+                },
               }}
             >
-              <Activity
-                style={{
-                  color: '#10B981',
-                  transition: 'transform 0.3s',
-                }}
-                size={24}
-              />
+              <Activity size={24} />
               <Typography
                 variant="h4"
                 sx={{

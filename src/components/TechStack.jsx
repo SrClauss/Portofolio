@@ -4,12 +4,12 @@ import { Binary, Cpu, Layout, Zap, Box as BoxIcon, Database } from 'lucide-react
 
 // Icon mapping for tech stack
 const TECH_ICONS = {
-  Binary: <Binary style={{ width: 20, height: 20 }} />,
-  Cpu: <Cpu style={{ width: 20, height: 20 }} />,
-  Layout: <Layout style={{ width: 20, height: 20 }} />,
-  Zap: <Zap style={{ width: 20, height: 20 }} />,
-  Box: <BoxIcon style={{ width: 20, height: 20 }} />,
-  Database: <Database style={{ width: 20, height: 20 }} />,
+  Binary: <Binary />,
+  Cpu: <Cpu />,
+  Layout: <Layout />,
+  Zap: <Zap />,
+  Box: <BoxIcon />,
+  Database: <Database />,
 };
 
 const techStack = [
@@ -101,6 +101,10 @@ export default function TechStack() {
                   transition: 'transform 0.3s',
                   display: 'flex',
                   justifyContent: 'center',
+                  '& svg': {
+                    width: 20,
+                    height: 20,
+                  },
                 }}
               >
                 {TECH_ICONS[tech.iconName]}

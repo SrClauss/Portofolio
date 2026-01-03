@@ -75,13 +75,13 @@ export default function Contact() {
                   transform: 'translateX(8px)',
                 },
               },
+              '& .arrow-icon': {
+                transition: 'transform 0.3s',
+              },
             }}
           >
             Establish_Connection
-            <ChevronRight
-              className="arrow-icon"
-              style={{ transition: 'transform 0.3s' }}
-            />
+            <ChevronRight className="arrow-icon" />
           </Button>
         </Box>
       </Box>

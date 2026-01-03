@@ -108,9 +108,13 @@ export default function Hero() {
                 p: 2,
                 opacity: 0.1,
                 color: 'primary.main',
+                '& svg': {
+                  width: { xs: 48, md: 80 },
+                  height: { xs: 48, md: 80 },
+                },
               }}
             >
-              <Terminal size={48} style={{ width: { xs: 48, md: 80 }, height: { xs: 48, md: 80 } }} />
+              <Terminal size={48} />
             </Box>
             
             <Box
